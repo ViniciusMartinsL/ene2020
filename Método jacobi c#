@@ -1,0 +1,95 @@
+using System;
+
+namespace MetodoJacobi
+{
+    public class Program
+    {
+		public const int TAMANHO_MATRIZ = 2;
+
+		static void Main(string[] args)
+        {
+            //declaração da matriz base e das linhas
+		    double[][] matriz = new double[TAMANHO_MATRIZ][];
+
+            //declaração das colunas da matriz
+            for (int i = 0; i < TAMANHO_MATRIZ; i++)
+            {
+				matriz[i] = new double[TAMANHO_MATRIZ];
+			}
+
+			matriz[0][0] = 2;
+			matriz[0][1] = 1;
+			matriz[1][0] = 3;
+			matriz[1][1] = 4;
+
+			double[] b = new double[TAMANHO_MATRIZ];
+			b[0] = 1;
+			b[1] = -1;
+
+			double e = -1;
+
+			Console.WriteLine("Número de interações");
+
+			var entrada = Console.ReadLine();
+            int numInteracoes = Convert.ToInt32(entrada);
+
+            var metodo = new Program();
+			metodo.Jacobi(matriz, b, e, numInteracoes);
+
+        }
+
+        
+
+        private void Jacobi(double[][] matriz, double[] b, double e, int numInteracoes)
+        {
+			double[] x0 = new double[matriz.Length];
+			double[] x = (double[]) x0.Clone();
+
+			double erro = 100, soma;
+			var k = 0;
+
+            for (int i = 0; i < x0.Length; i++)
+            {
+				x0[i] = 0;
+            }
+
+            while (erro >= e && k <= numInteracoes)
+            {
+                for (int i = 0; i < matriz.Length; i++)
+                {
+					soma = 0;
+					for (int j = 0; j < matriz[0].Length; j++)
+					{
+						if (i != j)
+						{
+							soma += (matriz[i][j] * x0[j]) / matriz[i][i];
+						}
+						x[i] = (b[i] / matriz[i][i]) - soma;
+					}
+                }
+				erro = calulaErro(x, x0);
+				Console.WriteLine($"Iteracao {k}: {erro}");
+				x0 = (double[]) x.Clone();
+				k++;
+		    }
+		}
+
+        public double calulaErro(double[] a, double[] b)
+        {
+			double[] result = new double[a.Length];
+			for (int i = 0; i < a.Length; i++)
+			{
+				result[i] = Math.Abs(a[i] - b[i]);
+			}
+			int cont = 0;
+			double maior = 0;
+			while (cont < a.Length)
+			{
+				maior = Math.Max(maior, result[cont]);
+				cont++;
+			}
+			//Console.WriteLine(maior);
+			return maior;
+		}
+	}
+}
