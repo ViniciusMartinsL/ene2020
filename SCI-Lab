@@ -1,0 +1,144 @@
+clc
+clear
+
+// Criação do formulário (inserção de dados)
+f=figure('figure_position',[400,50],'figure_size',[800,600],'auto_resize','on','background',[-2],'figure_name','Janela gráfica número %d','dockable','off','infobar_visible','off','toolbar_visible','off','menubar_visible','off','default_axes','on','visible','off');
+//////////
+handles.dummy = 0;
+handles.mcoeff=uicontrol(f,'unit','normalized','BackgroundColor',[-1,-1,-1],'Enable','on','FontAngle','normal','FontName','Tahoma','FontSize',[20],'FontUnits','points','FontWeight','normal','ForegroundColor',[-1,-1,-1],'HorizontalAlignment','left','ListboxTop',[],'Max',[1],'Min',[0],'Position',[0.0112179,0.790905,0.4787821,0.10181],'Relief','default','SliderStep',[0.01,0.1],'String','Digiteos valores da matriz:','Style','text','Value',[0],'VerticalAlignment','middle','Visible','on','Tag','mcoeff','Callback','')
+handles.coeff=uicontrol(f,'unit','normalized','BackgroundColor',[-1,-1,-1],'Enable','on','FontAngle','normal','FontName','Tahoma','FontSize',[20],'FontUnits','points','FontWeight','normal','ForegroundColor',[-1,-1,-1],'HorizontalAlignment','left','ListboxTop',[],'Max',[1],'Min',[0],'Position',[0.5,0.790905,0.4246795,0.0972851],'Relief','default','SliderStep',[0.01,0.1],'String','[8 -4 -2;-4 10 -2;-2 -2 10]','Style','edit','Value',[0],'VerticalAlignment','middle','Visible','on','Tag','coeff','Callback','')
+handles.mresul=uicontrol(f,'unit','normalized','BackgroundColor',[-1,-1,-1],'Enable','on','FontAngle','normal','FontName','Tahoma','FontSize',[20],'FontUnits','points','FontWeight','normal','ForegroundColor',[-1,-1,-1],'HorizontalAlignment','left','ListboxTop',[],'Max',[1],'Min',[0],'Position',[0.0080128,0.6823077,0.4819872,0.0927602],'Relief','default','SliderStep',[0.01,0.1],'String','Digite a matriz resultado:','Style','text','Value',[0],'VerticalAlignment','middle','Visible','on','Tag','mresul','Callback','')
+handles.resul=uicontrol(f,'unit','normalized','BackgroundColor',[-1,-1,-1],'Enable','on','FontAngle','normal','FontName','Tahoma','FontSize',[20],'FontUnits','points','FontWeight','normal','ForegroundColor',[-1,-1,-1],'HorizontalAlignment','left','ListboxTop',[],'Max',[1],'Min',[0],'Position',[0.5,0.6845701,0.4246795,0.0950226],'Relief','default','SliderStep',[0.01,0.1],'String','[10;0;4]','Style','edit','Value',[0],'VerticalAlignment','middle','Visible','on','Tag','resul','Callback','')
+handles.mchut=uicontrol(f,'unit','normalized','BackgroundColor',[-1,-1,-1],'Enable','on','FontAngle','normal','FontName','Tahoma','FontSize',[20],'FontUnits','points','FontWeight','normal','ForegroundColor',[-1,-1,-1],'HorizontalAlignment','left','ListboxTop',[],'Max',[1],'Min',[0],'Position',[0.0064103,0.571448,0.4851923,0.0972851],'Relief','default','SliderStep',[0.01,0.1],'String','Insira a Tolerância desejada:','Style','text','Value',[0],'VerticalAlignment','middle','Visible','on','Tag','mchut','Callback','')
+handles.toll=uicontrol(f,'unit','normalized','BackgroundColor',[-1,-1,-1],'Enable','on','FontAngle','normal','FontName','Tahoma','FontSize',[20],'FontUnits','points','FontWeight','normal','ForegroundColor',[-1,-1,-1],'HorizontalAlignment','left','ListboxTop',[],'Max',[1],'Min',[0],'Position',[0.4964103,0.5682353,0.4266667,0.1004977],'Relief','default','SliderStep',[0.01,0.1],'String','0.001','Style','edit','Value',[0],'VerticalAlignment','middle','Visible','on','Tag','toll','Callback','')
+handles.calcular=uicontrol(f,'unit','normalized','BackgroundColor',[-1,-1,-1],'Enable','on','FontAngle','normal','FontName','Tahoma','FontSize',[20],'FontUnits','points','FontWeight','normal','ForegroundColor',[-1,-1,-1],'HorizontalAlignment','center','ListboxTop',[],'Max',[1],'Min',[0],'Position',[0.2083333,0.3217647,0.5320513,0.1289593],'Relief','default','SliderStep',[0.01,0.1],'String','Calcular as interações:','Style','pushbutton','Value',[0],'VerticalAlignment','middle','Visible','on','Tag','calcular','Callback','calcular_callback(handles)')
+handles.mcchut=uicontrol(f,'unit','normalized','BackgroundColor',[-1,-1,-1],'Enable','on','FontAngle','normal','FontName','Tahoma','FontSize',[20],'FontUnits','points','FontWeight','normal','ForegroundColor',[-1,-1,-1],'HorizontalAlignment','left','ListboxTop',[],'Max',[1],'Min',[0],'Position',[0.0066176,0.4786686,0.4845588,0.0793201],'Relief','default','SliderStep',[0.01,0.1],'String','Digite o vetor inicial:','Style','text','Value',[0],'VerticalAlignment','middle','Visible','on','Tag','mcchut','Callback','')
+handles.chut=uicontrol(f,'unit','normalized','BackgroundColor',[-1,-1,-1],'Enable','on','FontAngle','normal','FontName','Tahoma','FontSize',[20],'FontUnits','points','FontWeight','normal','ForegroundColor',[-1,-1,-1],'HorizontalAlignment','left','ListboxTop',[],'Max',[1],'Min',[0],'Position',[0.4967949,0.4793993,0.4262821,0.0742049],'Relief','default','SliderStep',[0.01,0.1],'String','[0;0;0]','Style','edit','Value',[0],'VerticalAlignment','middle','Visible','on','Tag','chut','Callback','')
+handles.mresp=uicontrol(f,'unit','normalized','BackgroundColor',[-1,-1,-1],'Enable','on','FontAngle','normal','FontName','Tahoma','FontSize',[20],'FontUnits','points','FontWeight','normal','ForegroundColor',[-1,-1,-1],'HorizontalAlignment','left','ListboxTop',[],'Max',[1],'Min',[0],'Position',[0.0032051,0.229682,0.2980769,0.0777385],'Relief','default','SliderStep',[0.01,0.1],'String','Valor dos vetores:','Style','text','Value',[0],'VerticalAlignment','middle','Visible','on','Tag','mresp','Callback','')
+handles.resp=uicontrol(f,'unit','normalized','BackgroundColor',[-1,-1,-1],'Enable','on','FontAngle','normal','FontName','Tahoma','FontSize',[20],'FontUnits','points','FontWeight','normal','ForegroundColor',[-1,-1,-1],'HorizontalAlignment','left','ListboxTop',[],'Max',[1],'Min',[0],'Position',[0.3028846,0.0229682,0.2964744,0.2809187],'Relief','default','SliderStep',[0.01,0.1],'String','','Style','edit','Value',[0],'VerticalAlignment','middle','Visible','on','Tag','resp','Callback','')
+handles.mni=uicontrol(f,'unit','normalized','BackgroundColor',[-1,-1,-1],'Enable','on','FontAngle','normal','FontName','Tahoma','FontSize',[20],'FontUnits','points','FontWeight','normal','ForegroundColor',[-1,-1,-1],'HorizontalAlignment','left','ListboxTop',[],'Max',[1],'Min',[0],'Position',[0.6025641,0.2332155,0.224359,0.0689046],'Relief','default','SliderStep',[0.01,0.1],'String','Iterações:','Style','text','Value',[0],'VerticalAlignment','middle','Visible','on','Tag','mni','Callback','')
+handles.ni=uicontrol(f,'unit','normalized','BackgroundColor',[-1,-1,-1],'Enable','on','FontAngle','normal','FontName','Tahoma','FontSize',[20],'FontUnits','points','FontWeight','normal','ForegroundColor',[-1,-1,-1],'HorizontalAlignment','left','ListboxTop',[],'Max',[1],'Min',[0],'Position',[0.8301282,0.2349823,0.1634615,0.0671378],'Relief','default','SliderStep',[0.01,0.1],'String','','Style','edit','Value',[0],'VerticalAlignment','middle','Visible','on','Tag','ni','Callback','')
+handles.mres=uicontrol(f,'unit','normalized','BackgroundColor',[-1,-1,-1],'Enable','on','FontAngle','normal','FontName','Tahoma','FontSize',[20],'FontUnits','points','FontWeight','normal','ForegroundColor',[-1,-1,-1],'HorizontalAlignment','left','ListboxTop',[],'Max',[1],'Min',[0],'Position',[0.6025641,0.1332155,0.224359,0.0689046],'Relief','default','SliderStep',[0.01,0.1],'String','Resíduo:','Style','text','Value',[0],'VerticalAlignment','middle','Visible','on','Tag','mni','Callback','')
+handles.res=uicontrol(f,'unit','normalized','BackgroundColor',[-1,-1,-1],'Enable','on','FontAngle','normal','FontName','Tahoma','FontSize',[20],'FontUnits','points','FontWeight','normal','ForegroundColor',[-1,-1,-1],'HorizontalAlignment','left','ListboxTop',[],'Max',[1],'Min',[0],'Position',[0.8301282,0.1349823,0.1634615,0.0671378],'Relief','default','SliderStep',[0.01,0.1],'String','','Style','edit','Value',[0],'VerticalAlignment','middle','Visible','on','Tag','ni','Callback','')
+
+
+f.visible = "on";
+
+
+function calcular_callback(handles)
+//Criação da função responsável por resolver o sistema
+
+
+//----------------------------------------------------------------------------------
+// Captura e definição de dados iniciais
+//----------------------------------------------------------------------------------
+
+a = handles.coeff.string
+A = evstr(a)
+a = handles.resul.string
+B = evstr(a)
+a = handles.chut.string
+Xo = evstr(a)
+a = handles.toll.string
+tol = strtod(a)
+nimax = 1000
+flag = 0
+ni = 0
+k = 1
+[m, n] = size(A)
+
+//----------------------------------------------------------------------------------
+// Elo de repetição responsável por efetuar as iterações necessárias
+//----------------------------------------------------------------------------------
+
+while flag ==0
+    
+    for i = 1:n //Laço responsável por um novo vetor resultado
+        soma = 0
+        for j = 1:n // Laço responsável por efetuar a soma necessária na criação do vetor resultado
+            soma = soma + A(i,j)*Xo(j)
+        end
+        soma = soma - A(i,i)*Xo(i)
+        X(i) = (1/A(i,i))*(B(i)-soma)
+   end
+   ni = ni+1
+   dx = X - Xo
+   Xo = X
+   G(k) = max(A*X-B) //Vetor responsável por armazenar todos os valores assumidos pelo resíduo do sistema linear
+   k = k+1
+   //Condições para o encerramento do laço
+   if (max(abs(dx)))/(max(abs(X))) < tol then 
+       flag = 1
+   end
+   if ni==nimax then
+       flag = 2
+   end
+end
+
+//----------------------------------------------------------------------------------
+// Exibição dos Resultados
+//----------------------------------------------------------------------------------
+
+if flag==1 then
+    handles.resp.string = string(X)
+    handles.ni.string = string(ni)
+    handles.res.string = string(max(A*X-B))
+end
+if flag==2 then
+    handles.resp.string = 'Não convergiu'
+    handles.ni.string = string(nimax)
+    handles.res.string = string(max(A*X-B))
+    
+end
+
+
+
+//----------------------------------------------------------------------------------
+//Construindo o gráfico responsável por exibir os resíduos
+//----------------------------------------------------------------------------------
+for i = 1:ni
+    p(i) = 0
+end
+
+abc = figure(10)
+f = gcf()
+f.background = 8;
+f.figure_size = [700,700]
+f.axes_size = [200,200]
+a=gca();
+a.background = 8;
+a.title
+a.labels_font_size = 5;
+type(a.title)
+a.x_label
+a.y_label
+t=a.title;
+t.foreground=9;
+t.font_size=5;
+t.font_style=5;
+t.text="Graficando os resultados:";
+
+x_label=a.x_label;
+x_label.text="Iterações"
+x_label.font_style= 10;
+x_label.font_size = 5;
+a.y_label.foreground = 12;
+y_label = a.y_label
+y_label.font_size = 5;
+y_label.font_style= 10;
+y_label.text="Resíduos"
+
+plot(p,'r','thickness',5)
+plot(G,'thickness',7)
+xgrid()
+
+endfunction
+
+//----------------------------------------------------------------------------------
+// Programa para o cálculo do método de Jacobi
+// Aluno: Vinicius Martins Lemos
+// Professor: Antonio de Padua Finazzi
+// Curso: Engenharia Elétrica
+// UFMT
+// Data: 18/02/2020
+//----------------------------------------------------------------------------------
